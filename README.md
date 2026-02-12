@@ -12,12 +12,12 @@ Track token usage, visualize consumption patterns, and get prompt improvement su
 
 ## Supported Tools
 
-| Tool | Status | Installation |
-|------|--------|--------------|
-| Claude Code | Full Support | [Instructions](#claude-code) |
-| Cursor | Adapter | [Instructions](#cursor) |
-| Continue.dev | Adapter | [Instructions](#continuedev) |
-| Standalone | Script | [Instructions](#standalone) |
+| Tool         | Status       | Installation                 |
+| ------------ | ------------ | ---------------------------- |
+| Claude Code  | Full Support | [Instructions](#claude-code) |
+| Cursor       | Adapter      | [Instructions](#cursor)      |
+| Continue.dev | Adapter      | [Instructions](#continuedev) |
+| Standalone   | Script       | [Instructions](#standalone)  |
 
 ---
 
@@ -25,10 +25,10 @@ Track token usage, visualize consumption patterns, and get prompt improvement su
 
 ### Two Installation Options
 
-| Option | Behavior | Best For |
-|--------|----------|----------|
-| **Option A: CLAUDE.md** | Auto-loads in every session | Always-on tracking |
-| **Option B: Skill** | Manual invoke with `/tokenusage` | On-demand tracking |
+| Option                  | Behavior                         | Best For           |
+| ----------------------- | -------------------------------- | ------------------ |
+| **Option A: CLAUDE.md** | Auto-loads in every session      | Always-on tracking |
+| **Option B: Skill**     | Manual invoke with `/tokenusage` | On-demand tracking |
 
 ---
 
@@ -61,10 +61,12 @@ Show a mini token summary when ANY of these conditions are met:
 
 ### Mini Summary Format
 ```
+
 ───────────────────────────────────────
 📊 Tokens: ~X,XXX | Cost: ~$X.XX | Turns: X
-   Full report? → /tokenusage show
+Full report? → /tokenusage show
 ───────────────────────────────────────
+
 ```
 
 ### Commands
@@ -91,7 +93,7 @@ This method requires invoking `/tokenusage` to activate tracking.
 
 ```bash
 # Clone from GitHub
-git clone https://github.com/YOUR_USERNAME/tokenusage-skill.git ~/.claude/skills/tokenusage-skill
+git clone https://github.com/rohandey/tokenusage-skill.git ~/.claude/skills/tokenusage-skill
 
 # Or copy manually
 cp -r tokenusage-skill ~/.claude/skills/
@@ -114,6 +116,7 @@ cp -r tokenusage-skill ~/.claude/skills/
 ### Combining Both Options
 
 For the best experience, use **both**:
+
 1. CLAUDE.md for automatic tracking in all sessions
 2. Skill for the full dashboard and export features
 
@@ -124,12 +127,14 @@ For the best experience, use **both**:
 Once active (via either method), the skill shows mini token summaries automatically:
 
 **Triggers:**
+
 - Every 5 conversation turns
 - After large code generation (>100 lines)
 - After multiple tool calls (3+)
 - When session cost exceeds $0.25
 
 **Mini Summary Format:**
+
 ```
 ───────────────────────────────────────
 📊 Tokens: ~3,200 | Cost: ~$0.18 | Turns: 5
@@ -138,6 +143,7 @@ Once active (via either method), the skill shows mini token summaries automatica
 ```
 
 **Control Commands:**
+
 - `/tokenusage quiet` - Disable automatic summaries
 - `/tokenusage auto` - Re-enable automatic summaries
 
@@ -209,14 +215,14 @@ python adapters/tokenusage.py --input "text" --model gpt-4o
 
 ## Commands Reference
 
-| Command | Description |
-|---------|-------------|
-| `/tokenusage show` | Display full ASCII dashboard |
-| `/tokenusage export` | Export session data to JSON/HTML |
+| Command               | Description                        |
+| --------------------- | ---------------------------------- |
+| `/tokenusage show`    | Display full ASCII dashboard       |
+| `/tokenusage export`  | Export session data to JSON/HTML   |
 | `/tokenusage analyze` | Get prompt improvement suggestions |
-| `/tokenusage reset` | Reset tracking for a new session |
-| `/tokenusage quiet` | Disable automatic summaries |
-| `/tokenusage auto` | Re-enable automatic summaries |
+| `/tokenusage reset`   | Reset tracking for a new session   |
+| `/tokenusage quiet`   | Disable automatic summaries        |
+| `/tokenusage auto`    | Re-enable automatic summaries      |
 
 ---
 
@@ -224,36 +230,36 @@ python adapters/tokenusage.py --input "text" --model gpt-4o
 
 Since direct API token counts aren't always available, the skill uses character-based heuristics:
 
-| Content Type | Chars per Token | Example |
-|--------------|-----------------|---------|
-| English text | 4.0 | 400 chars ≈ 100 tokens |
-| Code | 3.5 | 350 chars ≈ 100 tokens |
-| JSON/YAML | 3.8 | 380 chars ≈ 100 tokens |
-| URLs/paths | 3.0 | 300 chars ≈ 100 tokens |
+| Content Type | Chars per Token | Example                |
+| ------------ | --------------- | ---------------------- |
+| English text | 4.0             | 400 chars ≈ 100 tokens |
+| Code         | 3.5             | 350 chars ≈ 100 tokens |
+| JSON/YAML    | 3.8             | 380 chars ≈ 100 tokens |
+| URLs/paths   | 3.0             | 300 chars ≈ 100 tokens |
 
 ### Quick Estimates
 
-| Content | Approximate Tokens |
-|---------|-------------------|
-| 1 paragraph (~500 chars) | ~125 tokens |
-| 1 function (~20 lines) | ~150 tokens |
-| 1 page of text | ~400 tokens |
-| Code file (~100 lines) | ~700 tokens |
+| Content                  | Approximate Tokens |
+| ------------------------ | ------------------ |
+| 1 paragraph (~500 chars) | ~125 tokens        |
+| 1 function (~20 lines)   | ~150 tokens        |
+| 1 page of text           | ~400 tokens        |
+| Code file (~100 lines)   | ~700 tokens        |
 
 ---
 
 ## Cost Reference (2025)
 
-| Model | Input (per 1M) | Output (per 1M) |
-|-------|----------------|-----------------|
-| Claude Opus 4 | $15.00 | $75.00 |
-| Claude Sonnet 4 | $3.00 | $15.00 |
-| Claude Haiku | $0.25 | $1.25 |
-| GPT-4o | $2.50 | $10.00 |
-| GPT-4o-mini | $0.15 | $0.60 |
-| GPT-o1 | $15.00 | $60.00 |
-| Gemini 1.5 Pro | $1.25 | $5.00 |
-| Gemini 2.0 Flash | $0.10 | $0.40 |
+| Model            | Input (per 1M) | Output (per 1M) |
+| ---------------- | -------------- | --------------- |
+| Claude Opus 4    | $15.00         | $75.00          |
+| Claude Sonnet 4  | $3.00          | $15.00          |
+| Claude Haiku     | $0.25          | $1.25           |
+| GPT-4o           | $2.50          | $10.00          |
+| GPT-4o-mini      | $0.15          | $0.60           |
+| GPT-o1           | $15.00         | $60.00          |
+| Gemini 1.5 Pro   | $1.25          | $5.00           |
+| Gemini 2.0 Flash | $0.10          | $0.40           |
 
 ---
 
@@ -313,6 +319,7 @@ tokenusage-skill/
 - **LLM-dependent**: Automatic summaries rely on the LLM following instructions
 
 For accurate token counts:
+
 - **OpenAI models**: Use the Python script with `tiktoken`
 - **Claude models**: Check [Anthropic Console](https://console.anthropic.com) after session
 
