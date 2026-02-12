@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Token Usage Report</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 24px;
+      background: #f8f9fa;
+      color: #1a1a1a;
+      line-height: 1.6;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      font-size: 18px;
+      margin: 24px 0 12px;
+      color: #444;
+    }
+
+    .meta {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .stat-value {
+      font-size: 32px;
+      font-weight: 700;
+      color: #2563eb;
+    }
+
+    .stat-value.cost {
+      color: #059669;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: #666;
+      margin-top: 4px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+
+    th {
+      font-weight: 600;
+      color: #444;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .bar-container {
+      margin: 12px 0;
+    }
+
+    .bar-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    .bar {
+      background: #e5e7eb;
+      border-radius: 6px;
+      height: 12px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 6px;
+      transition: width 0.5s ease;
+    }
+
+    .bar-fill.input {
+      background: linear-gradient(90deg, #3b82f6, #60a5fa);
+    }
+
+    .bar-fill.output {
+      background: linear-gradient(90deg, #8b5cf6, #a78bfa);
+    }
+
+    .bar-fill.tools {
+      background: linear-gradient(90deg, #f59e0b, #fbbf24);
+    }
+
+    .suggestion {
+      padding: 12px 16px;
+      border-left: 4px solid #3b82f6;
+      background: #eff6ff;
+      margin-bottom: 12px;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .suggestion.high {
+      border-left-color: #ef4444;
+      background: #fef2f2;
+    }
+
+    .suggestion.medium {
+      border-left-color: #f59e0b;
+      background: #fffbeb;
+    }
+
+    .suggestion.low {
+      border-left-color: #3b82f6;
+      background: #eff6ff;
+    }
+
+    .suggestion-priority {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+
+    .high .suggestion-priority { color: #dc2626; }
+    .medium .suggestion-priority { color: #d97706; }
+    .low .suggestion-priority { color: #2563eb; }
+
+    footer {
+      text-align: center;
+      color: #888;
+      font-size: 12px;
+      margin-top: 32px;
+      padding-top: 16px;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 16px; }
+      .stat-value { font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Token Usage Report</h1>
+  <p class="meta">
+    Session: <strong>{{SESSION_ID}}</strong> |
+    Model: <strong>{{MODEL}}</strong> |
+    Generated: <strong>{{TIMESTAMP}}</strong>
+  </p>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-value">{{TOTAL_TOKENS}}</div>
+      <div class="stat-label">Total Tokens</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value cost">${{TOTAL_COST}}</div>
+      <div class="stat-label">Estimated Cost</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{TURN_COUNT}}</div>
+      <div class="stat-label">Conversation Turns</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{AVG_TOKENS}}</div>
+      <div class="stat-label">Avg Tokens/Turn</div>
+    </div>
+  </div>
+
+  <h2>Token Distribution</h2>
+  <div class="card">
+    <div class="bar-container">
+      <div class="bar-label">
+        <span>Input Tokens</span>
+        <span>{{INPUT_TOKENS}} ({{INPUT_PERCENT}}%)</span>
+      </div>
+      <div class="bar">
+        <div class="bar-fill input" style="width: {{INPUT_PERCENT}}%"></div>
+      </div>
+    </div>
+
+    <div class="bar-container">
+      <div class="bar-label">
+        <span>Output Tokens</span>
+        <span>{{OUTPUT_TOKENS}} ({{OUTPUT_PERCENT}}%)</span>
+      </div>
+      <div class="bar">
+        <div class="bar-fill output" style="width: {{OUTPUT_PERCENT}}%"></div>
+      </div>
+    </div>
+
+    <div class="bar-container">
+      <div class="bar-label">
+        <span>Tool Tokens</span>
+        <span>{{TOOL_TOKENS}} ({{TOOL_PERCENT}}%)</span>
+      </div>
+      <div class="bar">
+        <div class="bar-fill tools" style="width: {{TOOL_PERCENT}}%"></div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Usage by Turn</h2>
+  <div class="card">
+    <table>
+      <thead>
+        <tr>
+          <th>Turn</th>
+          <th>Input</th>
+          <th>Output</th>
+          <th>Tools</th>
+          <th>Total</th>
+          <th>Cumulative</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{TURN_ROWS}}
+        <!-- Example row:
+        <tr>
+          <td>1</td>
+          <td>234</td>
+          <td>1,000</td>
+          <td>150</td>
+          <td>1,384</td>
+          <td>1,384</td>
+        </tr>
+        -->
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Cost Breakdown</h2>
+  <div class="card">
+    <table>
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Tokens</th>
+          <th>Rate (per 1M)</th>
+          <th>Cost</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Input</td>
+          <td>{{INPUT_TOKENS}}</td>
+          <td>${{INPUT_RATE}}</td>
+          <td>${{INPUT_COST}}</td>
+        </tr>
+        <tr>
+          <td>Output</td>
+          <td>{{OUTPUT_TOKENS}}</td>
+          <td>${{OUTPUT_RATE}}</td>
+          <td>${{OUTPUT_COST}}</td>
+        </tr>
+        <tr>
+          <td><strong>Total</strong></td>
+          <td><strong>{{TOTAL_TOKENS}}</strong></td>
+          <td>—</td>
+          <td><strong>${{TOTAL_COST}}</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Improvement Suggestions</h2>
+  {{SUGGESTIONS}}
+  <!-- Example suggestions:
+  <div class="suggestion high">
+    <div class="suggestion-priority">High Priority</div>
+    <div>Found 3 instances of repeated context. Consider referencing earlier context instead of restating. Potential savings: ~450 tokens</div>
+  </div>
+  <div class="suggestion medium">
+    <div class="suggestion-priority">Medium Priority</div>
+    <div>Turn 2 request was broad. Adding constraints could reduce output tokens by focusing the response.</div>
+  </div>
+  <div class="suggestion low">
+    <div class="suggestion-priority">Low Priority</div>
+    <div>Consider requesting JSON/list format for data-heavy responses to improve parsability.</div>
+  </div>
+  -->
+
+  <footer>
+    Generated by Token Usage Skill |
+    <a href="https://github.com/YOUR_USERNAME/tokenusage-skill">GitHub</a>
+  </footer>
+</body>
+</html>

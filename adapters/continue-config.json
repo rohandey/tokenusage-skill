@@ -1,0 +1,26 @@
+{
+  "$schema": "https://continue.dev/config-schema.json",
+  "customCommands": [
+    {
+      "name": "tokenusage",
+      "description": "Show token usage statistics for this session",
+      "prompt": "Calculate and display token usage for this conversation session.\n\nUse these estimation ratios:\n- English text: characters ÷ 4\n- Code: characters ÷ 3.5\n- JSON/YAML: characters ÷ 3.8\n\nDisplay results as:\n1. ASCII bar chart showing tokens per turn\n2. Input vs Output distribution\n3. Cumulative total\n4. Estimated cost (use Claude Sonnet rates: $3/1M input, $15/1M output)\n\nFormat example:\n```\nToken Usage Summary\n───────────────────────────────\nTurn 1: ████████░░░░  800 tokens\nTurn 2: ██████░░░░░░  600 tokens\n───────────────────────────────\nTotal: 1,400 tokens\nEst. Cost: $0.02\n```"
+    },
+    {
+      "name": "tokenusage-analyze",
+      "description": "Analyze prompts in this session for token efficiency",
+      "prompt": "Analyze the prompts in this conversation for token efficiency.\n\nCheck for:\n1. **Redundancy** - Repeated context across turns\n2. **Verbosity** - Unnecessary politeness or filler words\n3. **Missing constraints** - No output format or length specified\n4. **Over-explanation** - Restating things that are already clear\n\nProvide actionable suggestions with estimated token savings.\n\nFormat as:\n```\nPrompt Analysis\n───────────────────────────────\n[HIGH] Issue name\n  Description and fix\n  Savings: ~X tokens\n\n[MEDIUM] Issue name\n  Description and fix\n\n[LOW] Issue name\n  Description and fix\n───────────────────────────────\nTotal potential savings: ~X tokens\n```"
+    },
+    {
+      "name": "tokenusage-export",
+      "description": "Export token usage data as JSON",
+      "prompt": "Export the token usage data for this session as JSON.\n\nEstimate tokens using:\n- Text: characters ÷ 4\n- Code: characters ÷ 3.5\n\nOutput format:\n```json\n{\n  \"session\": {\n    \"turns\": [\n      {\"turn\": 1, \"input\": X, \"output\": Y, \"total\": Z}\n    ],\n    \"totals\": {\n      \"input\": X,\n      \"output\": Y,\n      \"total\": Z\n    },\n    \"estimated_cost\": {\n      \"input\": 0.00,\n      \"output\": 0.00,\n      \"total\": 0.00\n    }\n  }\n}\n```"
+    }
+  ],
+  "slashCommands": [
+    {
+      "name": "tokens",
+      "description": "Quick token count for current context"
+    }
+  ]
+}
