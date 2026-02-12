@@ -10,148 +10,87 @@ Track token usage, visualize consumption patterns, and get prompt improvement su
 - **Prompt Analysis**: Get suggestions to reduce token usage
 - **Automatic Summaries**: Proactive mini-reports without manual invocation
 
-## Supported Tools
+## Quick Start (Any LLM)
 
-| Tool         | Status       | Installation                 |
-| ------------ | ------------ | ---------------------------- |
-| Claude Code  | Full Support | [Instructions](#claude-code) |
-| Cursor       | Adapter      | [Instructions](#cursor)      |
-| Continue.dev | Adapter      | [Instructions](#continuedev) |
-| Standalone   | Script       | [Instructions](#standalone)  |
+Add this to your assistant's rules/instructions:
 
----
-
-## Claude Code
-
-### Two Installation Options
-
-| Option                  | Behavior                         | Best For           |
-| ----------------------- | -------------------------------- | ------------------ |
-| **Option A: CLAUDE.md** | Auto-loads in every session      | Always-on tracking |
-| **Option B: Skill**     | Manual invoke with `/tokenusage` | On-demand tracking |
-
----
-
-### Option A: Auto-Load via CLAUDE.md (Recommended)
-
-This method loads token tracking automatically in **every session** without needing to invoke anything.
-
-**Step 1:** Add this to `~/.claude/CLAUDE.md`:
-
-```markdown
+```
 ## Token Tracking
 Show mini token summary (tokens/cost/turns) every 5 turns, after large code generation, or 3+ tool calls.
-Commands: /tokenusage show | quiet | auto
+Estimate: text ÷ 4, code ÷ 3.5, JSON ÷ 3.8 chars per token.
 ```
 
-**Step 2:** Start a new Claude Code session
+**Where to add it:**
 
-The tracking will be active automatically. For full dashboard and export features, the skill must also be installed (Option B).
+| Tool | Location |
+|------|----------|
+| Claude Code | `~/.claude/CLAUDE.md` |
+| Cursor | `.cursorrules` |
+| GitHub Copilot | `.github/copilot-instructions.md` |
+| Windsurf | Cascade rules |
+| Sourcegraph Cody | Custom instructions in settings |
+| Continue.dev | `~/.continue/config.json` ([see format](#continuedev)) |
+| Aider | `.aider.conf.yml` or `--system-prompt` |
+| Any other LLM | System prompt or custom instructions |
+
+That's it! The LLM will now show token summaries automatically.
 
 ---
 
-### Option B: Install as Skill (On-Demand)
+## Claude Code (Advanced)
 
-This method requires invoking `/tokenusage` to activate tracking.
-
-**Step 1:** Clone or copy the skill:
+For full dashboard and export features, also install the skill:
 
 ```bash
-# Clone from GitHub
 git clone https://github.com/rohandey/tokenusage-skill.git ~/.claude/skills/tokenusage-skill
-
-# Or copy manually
-cp -r tokenusage-skill ~/.claude/skills/
 ```
 
-**Step 2:** Use in any session:
+Then use these commands:
 
 ```
-/tokenusage show      # View token usage (also activates tracking)
+/tokenusage show      # Full ASCII dashboard
 /tokenusage export    # Export to JSON/HTML
 /tokenusage analyze   # Get optimization tips
 /tokenusage quiet     # Disable auto summaries
 /tokenusage auto      # Re-enable auto summaries
 ```
 
-**Note:** The skill must be invoked at least once per session to activate automatic summaries.
-
----
-
-### Combining Both Options
-
-For the best experience, use **both**:
-
-1. CLAUDE.md for automatic tracking in all sessions
-2. Skill for the full dashboard and export features
-
----
-
-## Automatic Mode
-
-Once active (via either method), the skill shows mini token summaries automatically:
-
-**Triggers:**
-
-- Every 5 conversation turns
-- After large code generation (>100 lines)
-- After multiple tool calls (3+)
-- When session cost exceeds $0.25
-
-**Mini Summary Format:**
-
-```
-───────────────────────────────────────
-📊 Tokens: ~3,200 | Cost: ~$0.18 | Turns: 5
-   View full report? → /tokenusage show
-───────────────────────────────────────
-```
-
-**Control Commands:**
-
-- `/tokenusage quiet` - Disable automatic summaries
-- `/tokenusage auto` - Re-enable automatic summaries
-
----
-
-## Cursor
-
-Add to your `.cursorrules` file:
-
-```
-# Token Usage Tracking
-
-When tracking tokens, use these estimation ratios:
-- English text: characters ÷ 4
-- Code: characters ÷ 3.5
-- JSON/YAML: characters ÷ 3.8
-
-Track per-turn usage and provide summaries when asked with "show token usage".
-
-See tokenusage-skill/adapters/cursorrules.md for full rules.
-```
-
-Or copy the full rules from `adapters/cursorrules.md`.
-
 ---
 
 ## Continue.dev
 
-Add to your `~/.continue/config.json`:
+Add to `~/.continue/config.json`:
 
 ```json
 {
   "customCommands": [
     {
       "name": "tokenusage",
-      "description": "Show token usage statistics",
-      "prompt": "Calculate and display token usage for this session using character-based estimation (text ÷ 4, code ÷ 3.5). Show an ASCII bar chart of usage per turn and total estimated cost."
+      "description": "Show token summary",
+      "prompt": "Show mini token summary (tokens/cost/turns). Estimate: text ÷ 4, code ÷ 3.5, JSON ÷ 3.8."
     }
   ]
 }
 ```
 
-See `adapters/continue-config.json` for additional commands.
+---
+
+## Automatic Behavior
+
+Once active, the LLM shows mini token summaries when:
+
+- Every 5 conversation turns
+- After large code generation (>100 lines)
+- After multiple tool calls (3+)
+- When session cost exceeds $0.25
+
+**Format:**
+
+```
+───────────────────────────────────────
+📊 Tokens: ~3,200 | Cost: ~$0.18 | Turns: 5
+───────────────────────────────────────
+```
 
 ---
 
