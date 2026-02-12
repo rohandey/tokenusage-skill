@@ -36,52 +36,17 @@ Track token usage, visualize consumption patterns, and get prompt improvement su
 
 This method loads token tracking automatically in **every session** without needing to invoke anything.
 
-**Step 1:** Create or edit `~/.claude/CLAUDE.md`:
+**Step 1:** Add this to `~/.claude/CLAUDE.md`:
 
-```bash
-# Create the file
-cat > ~/.claude/CLAUDE.md << 'EOF'
-# Global Instructions
-
-## Automatic Token Usage Tracking
-
-Track token usage throughout conversations and show mini summaries proactively.
-
-### Estimation Rules
-- English text: characters ÷ 4
-- Code: characters ÷ 3.5
-- JSON/YAML: characters ÷ 3.8
-
-### Auto-Summary Triggers
-Show a mini token summary when ANY of these conditions are met:
-1. Every **5 conversation turns**
-2. After generating **>100 lines of code**
-3. After using **3+ tools** in a single response
-4. When estimated session cost **exceeds $0.25**
-
-### Mini Summary Format
-```
-
-───────────────────────────────────────
-📊 Tokens: ~X,XXX | Cost: ~$X.XX | Turns: X
-Full report? → /tokenusage show
-───────────────────────────────────────
-
-```
-
-### Commands
-- `/tokenusage show` - Full ASCII dashboard
-- `/tokenusage quiet` - Disable auto summaries for this session
-- `/tokenusage auto` - Re-enable auto summaries
-
-### Quiet Mode
-If user says `/tokenusage quiet`, stop showing automatic summaries until they say `/tokenusage auto` or start a new session.
-EOF
+```markdown
+## Token Tracking
+Show mini token summary (tokens/cost/turns) every 5 turns, after large code generation, or 3+ tool calls.
+Commands: /tokenusage show | quiet | auto
 ```
 
 **Step 2:** Start a new Claude Code session
 
-The tracking will be active automatically.
+The tracking will be active automatically. For full dashboard and export features, the skill must also be installed (Option B).
 
 ---
 
