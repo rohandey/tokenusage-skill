@@ -10,67 +10,55 @@ Track token usage, visualize consumption patterns, and get prompt improvement su
 - **Prompt Analysis**: Get suggestions to reduce token usage
 - **Automatic Summaries**: Proactive mini-reports without manual invocation
 
-## Quick Start (Any LLM)
+## Installation
 
-Add this to your assistant's rules/instructions:
-
-```
-## Token Tracking
-Show mini token summary (tokens/cost/turns) every 5 turns, after large code generation, or 3+ tool calls.
-Estimate: text ÷ 4, code ÷ 3.5, JSON ÷ 3.8 chars per token.
-```
-
-**Where to add it:**
-
-| Tool | Location |
-|------|----------|
-| Claude Code | `~/.claude/CLAUDE.md` |
-| Cursor | `.cursorrules` |
-| GitHub Copilot | `.github/copilot-instructions.md` |
-| Windsurf | Cascade rules |
-| Sourcegraph Cody | Custom instructions in settings |
-| Continue.dev | `~/.continue/config.json` ([see format](#continuedev)) |
-| Aider | `.aider.conf.yml` or `--system-prompt` |
-| Any other LLM | System prompt or custom instructions |
-
-That's it! The LLM will now show token summaries automatically.
-
----
-
-## Claude Code (Advanced)
-
-For full dashboard and export features, also install the skill:
+### Claude Code
 
 ```bash
 git clone https://github.com/rohandey/tokenusage-skill.git ~/.claude/skills/tokenusage-skill
 ```
 
-Then use these commands:
+### Cursor
 
-```
-/tokenusage show      # Full ASCII dashboard
-/tokenusage export    # Export to JSON/HTML
-/tokenusage analyze   # Get optimization tips
-/tokenusage quiet     # Disable auto summaries
-/tokenusage auto      # Re-enable auto summaries
+```bash
+git clone https://github.com/rohandey/tokenusage-skill.git ~/.cursor/skills/tokenusage-skill
 ```
 
----
+### Codex
 
-## Continue.dev
+```bash
+git clone https://github.com/rohandey/tokenusage-skill.git ~/.codex/skills/tokenusage-skill
+```
 
-Add to `~/.continue/config.json`:
+## Auto-Enable
 
-```json
-{
-  "customCommands": [
-    {
-      "name": "tokenusage",
-      "description": "Show token summary",
-      "prompt": "Show mini token summary (tokens/cost/turns). Estimate: text ÷ 4, code ÷ 3.5, JSON ÷ 3.8."
-    }
-  ]
-}
+Add this to your global instructions to enable automatic tracking in every session:
+
+| Tool | Config File |
+|------|-------------|
+| Claude Code | `~/.claude/CLAUDE.md` |
+| Cursor | `~/.cursor/rules/global.mdc` |
+| Codex | `~/.codex/instructions.md` |
+
+```
+## Automatic Token Usage Tracking (ALWAYS DO THIS)
+
+MUST show mini token summary at the END of every 5th response. Count turns starting from 1.
+
+Refer to tokenusage-skill/SKILL.md for format, estimation rules, and commands.
+```
+
+## Uninstall
+
+```bash
+# Claude Code
+rm -rf ~/.claude/skills/tokenusage-skill
+
+# Cursor
+rm -rf ~/.cursor/skills/tokenusage-skill
+
+# Codex
+rm -rf ~/.codex/skills/tokenusage-skill
 ```
 
 ---
@@ -121,9 +109,11 @@ python adapters/tokenusage.py --input "text" --model gpt-4o
 
 | Command               | Description                        |
 | --------------------- | ---------------------------------- |
+| `/tokenusage`         | Display mini token summary         |
 | `/tokenusage show`    | Display full ASCII dashboard       |
+| `/tokenusage advice`  | Get specific prompt rewrite suggestions |
+| `/tokenusage analyze` | Get token efficiency analysis      |
 | `/tokenusage export`  | Export session data to JSON/HTML   |
-| `/tokenusage analyze` | Get prompt improvement suggestions |
 | `/tokenusage reset`   | Reset tracking for a new session   |
 | `/tokenusage quiet`   | Disable automatic summaries        |
 | `/tokenusage auto`    | Re-enable automatic summaries      |
@@ -202,14 +192,12 @@ Since direct API token counts aren't always available, the skill uses character-
 ```
 tokenusage-skill/
 ├── README.md                        # This file
-├── SKILL.md                         # Main skill definition
+├── SKILL.md                         # Skill instructions (works in any LLM)
 ├── LICENSE                          # MIT License
 ├── references/
 │   ├── prompt-best-practices.md     # Prompt optimization guide
 │   └── html-template.html           # HTML export template
 └── adapters/
-    ├── cursorrules.md               # Cursor adapter rules
-    ├── continue-config.json         # Continue.dev config
     └── tokenusage.py                # Standalone Python script
 ```
 

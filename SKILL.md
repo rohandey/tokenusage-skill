@@ -43,10 +43,21 @@ If user says `/tokenusage quiet`, stop showing automatic summaries until:
 
 | Command | Description |
 |---------|-------------|
-| `/tokenusage show` | Display ASCII visualization of token usage |
+| `/tokenusage` or `/tokenusage summary` | Display mini token summary |
+| `/tokenusage show` | Display full ASCII visualization dashboard |
 | `/tokenusage export` | Export session data to JSON and HTML |
-| `/tokenusage analyze` | Get prompt improvement suggestions |
+| `/tokenusage analyze` | Get token efficiency analysis |
+| `/tokenusage advice` | Get specific advice on how prompts could be improved |
 | `/tokenusage reset` | Reset tracking for a new session |
+
+### Summary Format (`/tokenusage` or `/tokenusage summary`)
+
+```
+───────────────────────────────────────
+📊 Tokens: ~X,XXX | Cost: ~$X.XX | Turn: X
+   View full report? → /tokenusage show
+───────────────────────────────────────
+```
 
 ## Token Estimation
 
@@ -265,6 +276,47 @@ See `references/html-template.html` for a complete HTML report template.
 ║                                                                  ║
 ╚══════════════════════════════════════════════════════════════════╝
 ```
+
+## Advice: Prompt Rewrite Suggestions
+
+The `/tokenusage advice` command reviews the user's actual prompts from the session and suggests specific rewrites.
+
+### Output Format
+
+```
+╔══════════════════════════════════════════════════════════════════╗
+║                     PROMPT ADVICE                                ║
+╠══════════════════════════════════════════════════════════════════╣
+║                                                                  ║
+║  Turn 3:                                                         ║
+║  ───────────────────────────────────────────────────────────────║
+║  ❌ Original: "Can you please help me update the README file     ║
+║     to show the proper clone command for other platforms?"       ║
+║                                                                  ║
+║  ✅ Better: "Add clone commands for Cursor/Codex to README"      ║
+║                                                                  ║
+║  💡 Why: Removed filler words, made request direct               ║
+║     Savings: ~15 tokens                                          ║
+║                                                                  ║
+║  Turn 7:                                                         ║
+║  ───────────────────────────────────────────────────────────────║
+║  ❌ Original: "I think you are confused ... only skill.md        ║
+║     dont have the full content for the skill"                    ║
+║                                                                  ║
+║  ✅ Better: "SKILL.md alone isn't enough - needs adapter files"  ║
+║                                                                  ║
+║  💡 Why: State the issue directly, skip meta-commentary          ║
+║     Savings: ~10 tokens                                          ║
+║                                                                  ║
+╚══════════════════════════════════════════════════════════════════╝
+```
+
+### Advice Categories
+
+- **Filler removal**: "Can you please..." → Direct request
+- **Specificity**: Vague ask → Concrete action
+- **Context reduction**: Repeating info → Reference earlier turns
+- **Format requests**: Add output constraints to reduce response length
 
 ## References
 
