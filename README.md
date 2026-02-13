@@ -34,18 +34,43 @@ git clone https://github.com/rohandey/tokenusage-skill.git ~/.codex/skills/token
 
 Add this to your global config file to enable automatic tracking in every session:
 
-| Tool        | Config File                  |
-| ----------- | ---------------------------- |
-| Claude Code | `~/.claude/CLAUDE.md`        |
-| Cursor      | `~/.cursor/rules/global.mdc` |
-| Codex       | `~/.codex/instructions.md`   |
+### Claude Code
 
-```
+```bash
+cat >> ~/.claude/CLAUDE.md << 'EOF'
+
 ## Automatic Token Usage Tracking (ALWAYS DO THIS)
 
 MUST show mini token summary at the END of every 5th response. Count turns starting from 1.
 
-Refer to tokenusage-skill/SKILL.md for format, estimation rules, and commands.
+Refer to `~/.claude/skills/tokenusage-skill/SKILL.md` for format, estimation rules, and commands.
+EOF
+```
+
+### Cursor
+
+```bash
+cat >> ~/.cursor/rules/global.mdc << 'EOF'
+
+## Automatic Token Usage Tracking (ALWAYS DO THIS)
+
+MUST show mini token summary at the END of every 5th response. Count turns starting from 1.
+
+Refer to `~/.cursor/skills/tokenusage-skill/SKILL.md` for format, estimation rules, and commands.
+EOF
+```
+
+### Codex
+
+```bash
+cat >> ~/.codex/instructions.md << 'EOF'
+
+## Automatic Token Usage Tracking (ALWAYS DO THIS)
+
+MUST show mini token summary at the END of every 5th response. Count turns starting from 1.
+
+Refer to `~/.codex/skills/tokenusage-skill/SKILL.md` for format, estimation rules, and commands.
+EOF
 ```
 
 ## Uninstall
