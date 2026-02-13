@@ -50,14 +50,21 @@ Refer to tokenusage-skill/SKILL.md for format, estimation rules, and commands.
 
 ## Uninstall
 
+### Claude Code
+
 ```bash
-# Claude Code
 rm -rf ~/.claude/skills/tokenusage-skill
+```
 
-# Cursor
+### Cursor
+
+```bash
 rm -rf ~/.cursor/skills/tokenusage-skill
+```
 
-# Codex
+### Codex
+
+```bash
 rm -rf ~/.codex/skills/tokenusage-skill
 ```
 
@@ -109,7 +116,8 @@ python adapters/tokenusage.py --input "text" --model gpt-4o
 
 | Command                    | Description                             |
 | -------------------------- | --------------------------------------- |
-| `/tokenusage`              | Display mini token summary              |
+| `/tokenusage`              | Show help menu with all commands        |
+| `/tokenusage summary`      | Display mini token summary              |
 | `/tokenusage show`         | Display full ASCII dashboard            |
 | `/tokenusage advice`       | Get specific prompt rewrite suggestions |
 | `/tokenusage analyze`      | Get token efficiency analysis           |

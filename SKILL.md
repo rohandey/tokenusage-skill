@@ -46,22 +46,52 @@ If user says `/tokenusage quiet`, stop showing automatic summaries until:
 
 ## Commands
 
-| Command                                | Description                                |
-| -------------------------------------- | ------------------------------------------ |
-| `/tokenusage` or `/tokenusage summary` | Display mini token summary                 |
-| `/tokenusage show`                     | Display full ASCII visualization dashboard |
-| `/tokenusage advice`                   | Get specific prompt rewrite suggestions    |
-| `/tokenusage analyze`                  | Get token efficiency analysis              |
-| `/tokenusage model-suggest`            | Recommend cheaper model for task           |
-| `/tokenusage context`                  | Show context window usage                  |
-| `/tokenusage compare`                  | Compare session to typical usage           |
-| `/tokenusage cache-hints`              | Identify cacheable repeated context        |
-| `/tokenusage export`                   | Export session data to JSON and HTML       |
-| `/tokenusage reset`                    | Reset tracking for a new session           |
-| `/tokenusage quiet`                    | Disable automatic summaries                |
-| `/tokenusage auto`                     | Re-enable automatic summaries              |
+| Command                   | Description                                |
+| ------------------------- | ------------------------------------------ |
+| `/tokenusage`             | Show help menu with all commands           |
+| `/tokenusage summary`     | Display mini token summary                 |
+| `/tokenusage show`        | Display full ASCII visualization dashboard |
+| `/tokenusage advice`      | Get specific prompt rewrite suggestions    |
+| `/tokenusage analyze`     | Get token efficiency analysis              |
+| `/tokenusage model-suggest` | Recommend cheaper model for task         |
+| `/tokenusage context`     | Show context window usage                  |
+| `/tokenusage compare`     | Compare session to typical usage           |
+| `/tokenusage cache-hints` | Identify cacheable repeated context        |
+| `/tokenusage export`      | Export session data to JSON and HTML       |
+| `/tokenusage reset`       | Reset tracking for a new session           |
+| `/tokenusage quiet`       | Disable automatic summaries                |
+| `/tokenusage auto`        | Re-enable automatic summaries              |
 
-### Summary Format (`/tokenusage` or `/tokenusage summary`)
+## Default Behavior: Help Menu
+
+When user types `/tokenusage` without any arguments, display this help menu:
+
+```
+╔══════════════════════════════════════════════════════════════════╗
+║                    TOKEN USAGE SKILL - HELP                      ║
+╠══════════════════════════════════════════════════════════════════╣
+║                                                                  ║
+║  Available Commands:                                             ║
+║  ───────────────────────────────────────────────────────────────║
+║                                                                  ║
+║  /tokenusage summary       📈 Quick session summary             ║
+║  /tokenusage show          📊 Full token dashboard              ║
+║  /tokenusage advice        💡 Prompt rewrite suggestions        ║
+║  /tokenusage analyze       🔍 Token efficiency analysis         ║
+║  /tokenusage model-suggest 🤖 Cheaper model recommendation      ║
+║  /tokenusage context       📦 Context window usage              ║
+║  /tokenusage compare       ⚖️  Compare to typical usage          ║
+║  /tokenusage cache-hints   ♻️  Cacheable content hints           ║
+║  /tokenusage export        💾 Export to JSON/HTML               ║
+║  /tokenusage reset         🔄 Reset session tracking            ║
+║  ───────────────────────────────────────────────────────────────║
+║  /tokenusage quiet         🔇 Disable auto summaries            ║
+║  /tokenusage auto          🔊 Enable auto summaries             ║
+║                                                                  ║
+╚══════════════════════════════════════════════════════════════════╝
+```
+
+### Summary Format (`/tokenusage summary`)
 
 ```
 ───────────────────────────────────────
