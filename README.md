@@ -32,13 +32,13 @@ git clone https://github.com/rohandey/tokenusage-skill.git ~/.codex/skills/token
 
 ## Auto-Enable
 
-Add this to your global instructions to enable automatic tracking in every session:
+Add this to your global config file to enable automatic tracking in every session:
 
-| Tool | Config File |
-|------|-------------|
-| Claude Code | `~/.claude/CLAUDE.md` |
-| Cursor | `~/.cursor/rules/global.mdc` |
-| Codex | `~/.codex/instructions.md` |
+| Tool        | Config File                  |
+| ----------- | ---------------------------- |
+| Claude Code | `~/.claude/CLAUDE.md`        |
+| Cursor      | `~/.cursor/rules/global.mdc` |
+| Codex       | `~/.codex/instructions.md`   |
 
 ```
 ## Automatic Token Usage Tracking (ALWAYS DO THIS)
@@ -107,16 +107,17 @@ python adapters/tokenusage.py --input "text" --model gpt-4o
 
 ## Commands Reference
 
-| Command               | Description                        |
-| --------------------- | ---------------------------------- |
-| `/tokenusage`         | Display mini token summary         |
-| `/tokenusage show`    | Display full ASCII dashboard       |
+| Command               | Description                             |
+| --------------------- | --------------------------------------- |
+| `/tokenusage`         | Display mini token summary              |
+| `/tokenusage summary` | Display mini token summary              |
+| `/tokenusage show`    | Display full ASCII dashboard            |
 | `/tokenusage advice`  | Get specific prompt rewrite suggestions |
-| `/tokenusage analyze` | Get token efficiency analysis      |
-| `/tokenusage export`  | Export session data to JSON/HTML   |
-| `/tokenusage reset`   | Reset tracking for a new session   |
-| `/tokenusage quiet`   | Disable automatic summaries        |
-| `/tokenusage auto`    | Re-enable automatic summaries      |
+| `/tokenusage analyze` | Get token efficiency analysis           |
+| `/tokenusage export`  | Export session data to JSON/HTML        |
+| `/tokenusage reset`   | Reset tracking for a new session        |
+| `/tokenusage quiet`   | Disable automatic summaries             |
+| `/tokenusage auto`    | Re-enable automatic summaries           |
 
 ---
 
