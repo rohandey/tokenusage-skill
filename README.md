@@ -76,7 +76,7 @@ Once active, the LLM shows mini token summaries when:
 
 ```
 ───────────────────────────────────────
-📊 Tokens: ~3,200 | Cost: ~$0.18 | Turns: 5
+📊 Tokens: ~3,200 | Context: 22% | Turns: 5
 ───────────────────────────────────────
 ```
 
@@ -107,17 +107,20 @@ python adapters/tokenusage.py --input "text" --model gpt-4o
 
 ## Commands Reference
 
-| Command               | Description                             |
-| --------------------- | --------------------------------------- |
-| `/tokenusage`         | Display mini token summary              |
-| `/tokenusage summary` | Display mini token summary              |
-| `/tokenusage show`    | Display full ASCII dashboard            |
-| `/tokenusage advice`  | Get specific prompt rewrite suggestions |
-| `/tokenusage analyze` | Get token efficiency analysis           |
-| `/tokenusage export`  | Export session data to JSON/HTML        |
-| `/tokenusage reset`   | Reset tracking for a new session        |
-| `/tokenusage quiet`   | Disable automatic summaries             |
-| `/tokenusage auto`    | Re-enable automatic summaries           |
+| Command                    | Description                             |
+| -------------------------- | --------------------------------------- |
+| `/tokenusage`              | Display mini token summary              |
+| `/tokenusage show`         | Display full ASCII dashboard            |
+| `/tokenusage advice`       | Get specific prompt rewrite suggestions |
+| `/tokenusage analyze`      | Get token efficiency analysis           |
+| `/tokenusage model-suggest`| Recommend cheaper model for task        |
+| `/tokenusage context`      | Show context window usage               |
+| `/tokenusage compare`      | Compare session to typical usage        |
+| `/tokenusage cache-hints`  | Identify cacheable repeated context     |
+| `/tokenusage export`       | Export session data to JSON/HTML        |
+| `/tokenusage reset`        | Reset tracking for new session          |
+| `/tokenusage quiet`        | Disable automatic summaries             |
+| `/tokenusage auto`         | Re-enable automatic summaries           |
 
 ---
 
